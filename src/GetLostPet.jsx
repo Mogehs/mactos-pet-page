@@ -129,20 +129,33 @@ const GetLostPet = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col items-center justify-center h-96">
-            <div className="relative">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200"></div>
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent absolute top-0 left-0"></div>
+      <div
+        className="min-h-screen flex items-center justify-center px-4"
+        style={{ backgroundColor: "#FAFAFA" }}
+      >
+        <div className="max-w-md w-full flex flex-col items-center text-center">
+          {/* Animated paw icon or loader */}
+          <div className="relative mb-6">
+            <div className="h-20 w-20 rounded-full border-4 border-[#D9DFE6] animate-ping" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <svg
+                className="w-14 h-14 text-[#3B9577] animate-bounce"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M5.5 9C6.88 9 8 7.88 8 6.5S6.88 4 5.5 4 3 5.12 3 6.5 4.12 9 5.5 9zm13 0c1.38 0 2.5-1.12 2.5-2.5S19.88 4 18.5 4 16 5.12 16 6.5 17.12 9 18.5 9zM12 14c2.5 0 4.5-2 4.5-4.5S14.5 5 12 5 7.5 7 7.5 9.5 9.5 14 12 14zm-4.5 1c-.83 0-1.5.67-1.5 1.5S6.67 18 7.5 18 9 17.33 9 16.5 8.33 15 7.5 15zm9 0c-.83 0-1.5.67-1.5 1.5S15.67 18 16.5 18 18 17.33 18 16.5 17.33 15 16.5 15z" />
+              </svg>
             </div>
-            <p className="mt-6 text-xl text-gray-700 font-medium">
-              Loading pet information...
-            </p>
-            <p className="mt-2 text-gray-500">
-              Please wait while we fetch the details
-            </p>
           </div>
+
+          {/* Text */}
+          <h2 className="text-2xl font-semibold text-[#606873] mb-2">
+            Hang tight!
+          </h2>
+          <p className="text-[#808B9A] mb-1">
+            We're fetching your pet's details...
+          </p>
+          <p className="text-sm text-[#D9DFE6]">This won’t take long 🐾</p>
         </div>
       </div>
     );
@@ -150,16 +163,23 @@ const GetLostPet = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 p-4">
+      <div className="min-h-screen p-4" style={{ backgroundColor: "#FAFAFA" }}>
         <div className="max-w-2xl mx-auto pt-20">
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-red-100">
+          <div
+            className="rounded-2xl shadow-xl p-8 border"
+            style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+          >
             <div className="text-center">
-              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+              <div
+                className="mx-auto flex items-center justify-center h-16 w-16 rounded-full mb-4"
+                style={{ backgroundColor: "#D9DFE6" }}
+              >
                 <svg
-                  className="h-8 w-8 text-red-600"
+                  className="h-8 w-8"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  style={{ color: "#d62d20" }}
                 >
                   <path
                     strokeLinecap="round"
@@ -169,13 +189,23 @@ const GetLostPet = () => {
                   />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-red-800 mb-2">
+              <h2
+                className="text-2xl font-bold mb-2"
+                style={{ color: "#d62d20" }}
+              >
                 Oops! Something went wrong
               </h2>
-              <p className="text-red-600 mb-6">{error}</p>
+              <p className="mb-6" style={{ color: "#808B9A" }}>
+                {error}
+              </p>
               <button
                 onClick={() => window.location.reload()}
-                className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-all duration-200 transform hover:scale-105 font-medium shadow-lg"
+                className="px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-medium shadow-lg"
+                style={{ backgroundColor: "#d62d20", color: "#FFFFFF" }}
+                onMouseOver={(e) =>
+                  (e.target.style.backgroundColor = "#b32619")
+                }
+                onMouseOut={(e) => (e.target.style.backgroundColor = "#d62d20")}
               >
                 Try Again
               </button>
@@ -187,12 +217,15 @@ const GetLostPet = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
+    <div className="min-h-screen p-4" style={{ backgroundColor: "#FAFAFA" }}>
       {/* Floating WhatsApp Button */}
       {petData?.user?.phone && (
         <button
           onClick={() => setShowContactForm(true)}
-          className="fixed top-6 right-6 z-50 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 animate-pulse"
+          className="fixed top-6 right-6 z-50 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 animate-pulse"
+          style={{ backgroundColor: "#3B9577" }}
+          onMouseOver={(e) => (e.target.style.backgroundColor = "#2d7a63")}
+          onMouseOut={(e) => (e.target.style.backgroundColor = "#3B9577")}
           title={`Contact ${petData?.user?.firstname} ${petData?.user?.lastname} on WhatsApp`}
         >
           <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
@@ -203,15 +236,24 @@ const GetLostPet = () => {
 
       {/* Contact Form Modal */}
       {showContactForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+        <div className="fixed inset-0 bg-white/20 backdrop-blur-xl bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div
+            className="rounded-2xl shadow-2xl p-6 w-full max-w-md"
+            style={{ backgroundColor: "#FFFFFF" }}
+          >
+            <h3
+              className="text-2xl font-bold mb-6 text-center"
+              style={{ color: "#39434F" }}
+            >
               Your Contact Information
             </h3>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: "#606873" }}
+                >
                   Your Phone Number *
                 </label>
                 <input
@@ -219,13 +261,30 @@ const GetLostPet = () => {
                   value={finderPhone}
                   onChange={(e) => setFinderPhone(e.target.value)}
                   placeholder="Enter your phone number"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-opacity-50 focus:border-transparent"
+                  style={{
+                    borderColor: "#D9DFE6",
+                    backgroundColor: "#FFFFFF",
+                    color: "#39434F",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "#3B9577";
+                    e.target.style.boxShadow =
+                      "0 0 0 2px rgba(59, 149, 119, 0.2)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "#D9DFE6";
+                    e.target.style.boxShadow = "none";
+                  }}
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: "#606873" }}
+                >
                   Your Current Location
                 </label>
                 <div className="flex gap-2">
@@ -234,24 +293,48 @@ const GetLostPet = () => {
                     value={finderLocation}
                     onChange={(e) => setFinderLocation(e.target.value)}
                     placeholder="Enter your location or address"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-opacity-50 focus:border-transparent"
+                    style={{
+                      borderColor: "#D9DFE6",
+                      backgroundColor: "#FFFFFF",
+                      color: "#39434F",
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "#3B9577";
+                      e.target.style.boxShadow =
+                        "0 0 0 2px rgba(59, 149, 119, 0.2)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "#D9DFE6";
+                      e.target.style.boxShadow = "none";
+                    }}
                   />
                   <button
                     onClick={getCurrentLocation}
-                    className="px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    className="px-4 py-3 text-white rounded-lg transition-colors"
+                    style={{ backgroundColor: "#3B9577" }}
+                    onMouseOver={(e) =>
+                      (e.target.style.backgroundColor = "#2d7a63")
+                    }
+                    onMouseOut={(e) =>
+                      (e.target.style.backgroundColor = "#3B9577")
+                    }
                     title="Get current location"
                   >
                     📍
                   </button>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs mt-1" style={{ color: "#808B9A" }}>
                   Click 📍 to auto-detect your location
                 </p>
               </div>
 
               {finderLatitude && finderLongitude && (
-                <div className="bg-green-50 p-3 rounded-lg">
-                  <p className="text-sm text-green-700">
+                <div
+                  className="p-3 rounded-lg"
+                  style={{ backgroundColor: "#ECEFF2" }}
+                >
+                  <p className="text-sm" style={{ color: "#3B9577" }}>
                     ✓ Location detected: {finderLatitude}, {finderLongitude}
                   </p>
                 </div>
@@ -261,13 +344,23 @@ const GetLostPet = () => {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowContactForm(false)}
-                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                className="flex-1 px-6 py-3 rounded-lg transition-colors font-medium"
+                style={{ backgroundColor: "#D9DFE6", color: "#606873" }}
+                onMouseOver={(e) =>
+                  (e.target.style.backgroundColor = "#c8d0d7")
+                }
+                onMouseOut={(e) => (e.target.style.backgroundColor = "#D9DFE6")}
               >
                 Cancel
               </button>
               <button
                 onClick={handleWhatsAppContact}
-                className="flex-1 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium"
+                className="flex-1 px-6 py-3 text-white rounded-lg transition-colors font-medium"
+                style={{ backgroundColor: "#3B9577" }}
+                onMouseOver={(e) =>
+                  (e.target.style.backgroundColor = "#2d7a63")
+                }
+                onMouseOut={(e) => (e.target.style.backgroundColor = "#3B9577")}
               >
                 Send WhatsApp
               </button>
@@ -279,33 +372,51 @@ const GetLostPet = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8 pt-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ color: "#39434F" }}
+          >
             🐾 Lost Pet Details
           </h1>
-          <div className="inline-block bg-white rounded-full px-6 py-3 shadow-lg border border-blue-200">
-            <p className="text-lg font-semibold text-blue-800">Pet ID: {id}</p>
+          <div
+            className="inline-block rounded-full px-6 py-3 shadow-lg border"
+            style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+          >
+            <p className="text-lg font-semibold" style={{ color: "#3B9577" }}>
+              Pet ID: {id}
+            </p>
           </div>
         </div>
 
         {petData ? (
           <div className="space-y-6">
             {/* Pet Image and Basic Info Card */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-gray-100 hover:shadow-2xl transition-all duration-300">
+            <div
+              className="rounded-2xl shadow-xl p-6 md:p-8 border hover:shadow-2xl transition-all duration-300"
+              style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+            >
               <div className="flex flex-col lg:flex-row gap-8">
                 {/* Pet Image */}
                 {petData.pet_image && (
                   <div className="lg:w-1/3">
-                    <div className="relative overflow-hidden rounded-xl bg-gray-100">
+                    <div
+                      className="relative overflow-hidden rounded-xl"
+                      style={{ backgroundColor: "#ECEFF2" }}
+                    >
                       <img
                         src={petData.pet_image}
                         alt={petData.pet_name || "Pet"}
                         className="w-full h-64 lg:h-80 object-cover hover:scale-105 transition-transform duration-300"
                       />
-                      <div className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg">
+                      <div
+                        className="absolute top-4 right-4 rounded-full p-2 shadow-lg"
+                        style={{ backgroundColor: "#FFFFFF" }}
+                      >
                         <svg
-                          className="w-6 h-6 text-red-500"
+                          className="w-6 h-6"
                           fill="currentColor"
                           viewBox="0 0 24 24"
+                          style={{ color: "#d62d20" }}
                         >
                           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                         </svg>
@@ -317,21 +428,33 @@ const GetLostPet = () => {
                 {/* Basic Info */}
                 <div className="lg:w-2/3">
                   <div className="text-center lg:text-left mb-6">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+                    <h2
+                      className="text-3xl md:text-4xl font-bold mb-2"
+                      style={{ color: "#39434F" }}
+                    >
                       {petData.pet_name || "Unknown Pet"}
                     </h2>
-                    <p className="text-xl text-gray-600 mb-4">
+                    <p className="text-xl mb-4" style={{ color: "#606873" }}>
                       {petData.pet_race || "Unknown Breed"} •{" "}
                       {petData.pet_gender || "Unknown Gender"}
                     </p>
                     <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                      <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                      <span
+                        className="px-3 py-1 rounded-full text-sm font-medium"
+                        style={{ backgroundColor: "#ECEFF2", color: "#3B9577" }}
+                      >
                         {petData.pet || "Pet"}
                       </span>
-                      <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                      <span
+                        className="px-3 py-1 rounded-full text-sm font-medium"
+                        style={{ backgroundColor: "#ECEFF2", color: "#3B9577" }}
+                      >
                         {petData.pet_size || "Unknown Size"}
                       </span>
-                      <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+                      <span
+                        className="px-3 py-1 rounded-full text-sm font-medium"
+                        style={{ backgroundColor: "#ECEFF2", color: "#3B9577" }}
+                      >
                         {petData.pet_color || "Unknown Color"}
                       </span>
                     </div>
@@ -343,14 +466,21 @@ const GetLostPet = () => {
             {/* Details Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Basic Details Card */}
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div
+                className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+                style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+              >
                 <div className="flex items-center mb-4">
-                  <div className="bg-blue-100 rounded-full p-3 mr-3">
+                  <div
+                    className="rounded-full p-3 mr-3"
+                    style={{ backgroundColor: "#ECEFF2" }}
+                  >
                     <svg
-                      className="w-6 h-6 text-blue-600"
+                      className="w-6 h-6"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      style={{ color: "#3B9577" }}
                     >
                       <path
                         strokeLinecap="round"
@@ -360,30 +490,46 @@ const GetLostPet = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
+                  <h3
+                    className="text-xl font-bold"
+                    style={{ color: "#39434F" }}
+                  >
                     Basic Details
                   </h3>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Pet Type:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Pet Type:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.pet || "Unknown"}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
                       Date of Birth:
                     </span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.pet_dob
                         ? new Date(petData.pet_dob).toLocaleDateString()
                         : "Unknown"}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Age:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Age:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.preferred_age || "Unknown"}
                     </span>
                   </div>
@@ -391,14 +537,21 @@ const GetLostPet = () => {
               </div>
 
               {/* Physical Characteristics Card */}
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div
+                className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+                style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+              >
                 <div className="flex items-center mb-4">
-                  <div className="bg-green-100 rounded-full p-3 mr-3">
+                  <div
+                    className="rounded-full p-3 mr-3"
+                    style={{ backgroundColor: "#ECEFF2" }}
+                  >
                     <svg
-                      className="w-6 h-6 text-green-600"
+                      className="w-6 h-6"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      style={{ color: "#3B9577" }}
                     >
                       <path
                         strokeLinecap="round"
@@ -408,43 +561,63 @@ const GetLostPet = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
+                  <h3
+                    className="text-xl font-bold"
+                    style={{ color: "#39434F" }}
+                  >
                     Physical Characteristics
                   </h3>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Weight:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Weight:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.pet_weight
                         ? `${petData.pet_weight} kg`
                         : "Unknown"}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Height:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Height:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.pet_height
                         ? `${petData.pet_height} cm`
                         : "Unknown"}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
                       Microchip:
                     </span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.pet_microchip_number || "Not provided"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="font-medium text-gray-600">Neutered:</span>
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Neutered:
+                    </span>
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        petData.isNeutered === "true"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
+                      className="px-2 py-1 rounded-full text-xs font-medium"
+                      style={{
+                        backgroundColor:
+                          petData.isNeutered === "true" ? "#ECEFF2" : "#D9DFE6",
+                        color:
+                          petData.isNeutered === "true" ? "#3B9577" : "#808B9A",
+                      }}
                     >
                       {petData.isNeutered === "true" ? "Yes" : "No"}
                     </span>
@@ -456,14 +629,21 @@ const GetLostPet = () => {
             {/* Contact and Location Cards */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Contact Information Card */}
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div
+                className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+                style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+              >
                 <div className="flex items-center mb-4">
-                  <div className="bg-purple-100 rounded-full p-3 mr-3">
+                  <div
+                    className="rounded-full p-3 mr-3"
+                    style={{ backgroundColor: "#ECEFF2" }}
+                  >
                     <svg
-                      className="w-6 h-6 text-purple-600"
+                      className="w-6 h-6"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      style={{ color: "#3B9577" }}
                     >
                       <path
                         strokeLinecap="round"
@@ -473,28 +653,43 @@ const GetLostPet = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
+                  <h3
+                    className="text-xl font-bold"
+                    style={{ color: "#39434F" }}
+                  >
                     Contact Information
                   </h3>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Owner:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Owner:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData?.user?.firstname +
                         " " +
                         petData?.user?.lastname || "Unknown"}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Phone:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Phone:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData?.user?.phone || "Not provided"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="font-medium text-gray-600">Address:</span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Address:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData?.user?.address || "Not provided"}
                     </span>
                   </div>
@@ -502,14 +697,21 @@ const GetLostPet = () => {
               </div>
 
               {/* Location & Time Card */}
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div
+                className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+                style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+              >
                 <div className="flex items-center mb-4">
-                  <div className="bg-orange-100 rounded-full p-3 mr-3">
+                  <div
+                    className="rounded-full p-3 mr-3"
+                    style={{ backgroundColor: "#ECEFF2" }}
+                  >
                     <svg
-                      className="w-6 h-6 text-orange-600"
+                      className="w-6 h-6"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      style={{ color: "#FFC542" }}
                     >
                       <path
                         strokeLinecap="round"
@@ -525,26 +727,41 @@ const GetLostPet = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
+                  <h3
+                    className="text-xl font-bold"
+                    style={{ color: "#39434F" }}
+                  >
                     Location & Time
                   </h3>
                 </div>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Location:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Location:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.preferred_location || "Not specified"}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-600">Distance:</span>
-                    <span className="text-gray-900 font-medium">
+                  <div
+                    className="flex justify-between items-center py-2 border-b"
+                    style={{ borderColor: "#D9DFE6" }}
+                  >
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Distance:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.distance || "Unknown"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="font-medium text-gray-600">Posted:</span>
-                    <span className="text-gray-900 font-medium">
+                    <span className="font-medium" style={{ color: "#606873" }}>
+                      Posted:
+                    </span>
+                    <span className="font-medium" style={{ color: "#39434F" }}>
                       {petData.createdAt
                         ? new Date(petData.createdAt).toLocaleDateString()
                         : "Unknown"}
@@ -558,14 +775,24 @@ const GetLostPet = () => {
             {(petData.pet_description || petData.notes_other) && (
               <div className="grid grid-cols-1 gap-6">
                 {petData.pet_description && (
-                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300">
+                  <div
+                    className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      borderColor: "#D9DFE6",
+                    }}
+                  >
                     <div className="flex items-center mb-4">
-                      <div className="bg-indigo-100 rounded-full p-3 mr-3">
+                      <div
+                        className="rounded-full p-3 mr-3"
+                        style={{ backgroundColor: "#ECEFF2" }}
+                      >
                         <svg
-                          className="w-6 h-6 text-indigo-600"
+                          className="w-6 h-6"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
+                          style={{ color: "#3B9577" }}
                         >
                           <path
                             strokeLinecap="round"
@@ -575,25 +802,41 @@ const GetLostPet = () => {
                           />
                         </svg>
                       </div>
-                      <h3 className="text-xl font-bold text-gray-800">
+                      <h3
+                        className="text-xl font-bold"
+                        style={{ color: "#39434F" }}
+                      >
                         Description
                       </h3>
                     </div>
-                    <p className="text-gray-700 leading-relaxed text-lg">
+                    <p
+                      className="leading-relaxed text-lg"
+                      style={{ color: "#606873" }}
+                    >
                       {petData.pet_description}
                     </p>
                   </div>
                 )}
 
                 {petData.notes_other && (
-                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300">
+                  <div
+                    className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      borderColor: "#D9DFE6",
+                    }}
+                  >
                     <div className="flex items-center mb-4">
-                      <div className="bg-yellow-100 rounded-full p-3 mr-3">
+                      <div
+                        className="rounded-full p-3 mr-3"
+                        style={{ backgroundColor: "#ECEFF2" }}
+                      >
                         <svg
-                          className="w-6 h-6 text-yellow-600"
+                          className="w-6 h-6"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
+                          style={{ color: "#FFC542" }}
                         >
                           <path
                             strokeLinecap="round"
@@ -603,11 +846,17 @@ const GetLostPet = () => {
                           />
                         </svg>
                       </div>
-                      <h3 className="text-xl font-bold text-gray-800">
+                      <h3
+                        className="text-xl font-bold"
+                        style={{ color: "#39434F" }}
+                      >
                         Additional Notes
                       </h3>
                     </div>
-                    <p className="text-gray-700 leading-relaxed text-lg">
+                    <p
+                      className="leading-relaxed text-lg"
+                      style={{ color: "#606873" }}
+                    >
                       {petData.notes_other}
                     </p>
                   </div>
@@ -652,13 +901,20 @@ const GetLostPet = () => {
             )}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 text-center">
-            <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gray-100 mb-4">
+          <div
+            className="rounded-2xl shadow-xl p-8 border text-center"
+            style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+          >
+            <div
+              className="mx-auto flex items-center justify-center h-16 w-16 rounded-full mb-4"
+              style={{ backgroundColor: "#ECEFF2" }}
+            >
               <svg
-                className="h-8 w-8 text-gray-600"
+                className="h-8 w-8"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                style={{ color: "#808B9A" }}
               >
                 <path
                   strokeLinecap="round"
@@ -668,10 +924,15 @@ const GetLostPet = () => {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            <h2
+              className="text-2xl font-bold mb-2"
+              style={{ color: "#39434F" }}
+            >
               No Pet Information Found
             </h2>
-            <p className="text-gray-600">No pet data available for ID: {id}</p>
+            <p style={{ color: "#808B9A" }}>
+              No pet data available for ID: {id}
+            </p>
           </div>
         )}
       </div>
