@@ -79,7 +79,7 @@ const GetLostPet = () => {
 
         // Replace this URL with your actual API endpoint
         const response = await axios.post(
-          `http://localhost:5000/api/pet/${id}`
+          `https://mascotas-backend.onrender.com/api/pet/${id}`
         );
 
         setPetData(response.data.pet);
