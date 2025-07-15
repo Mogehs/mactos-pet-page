@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import GetLostPet from "./GetLostPet";
+import QrCode from "./QrCode";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <div className="App">
         <Toaster />
         <Routes>
-          <Route path="/pet/:id" element={<GetLostPet />} />
+          <Route path="/qr/:id" element={<QrCode />} />
         </Routes>
       </div>
     </Router>
