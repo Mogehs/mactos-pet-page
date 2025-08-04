@@ -1,13 +1,118 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Favicon and Icons -->
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Basic Meta Tags -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#3B9577" />
+  <meta name="msapplication-TileColor" content="#3B9577">
+
+  <!-- SEO Meta Tags -->
+  <title>Mascotas App - Encuentra y Registra tu Mascota Perdida | Sistema QR para Mascotas</title>
+  <meta name="description"
+    content="Encuentra mascotas perdidas con Mascotas App. Sistema QR inteligente para localizar y contactar dueños de mascotas extraviadas. Registro gratuito y comunicación directa vía WhatsApp." />
+  <meta name="keywords"
+    content="mascotas perdidas, encontrar mascota, QR mascotas, registro mascotas, mascotas extraviadas, localizar mascota, WhatsApp mascotas, microchip mascota, identificación mascota" />
+  <meta name="author" content="Mascotas App" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="Spanish" />
+  <meta name="revisit-after" content="7 days" />
+
+  <!-- Open Graph Meta Tags (Facebook, LinkedIn, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Mascotas App - Encuentra y Registra tu Mascota Perdida" />
+  <meta property="og:description"
+    content="Sistema QR inteligente para localizar mascotas perdidas. Conecta de forma directa con los dueños vía WhatsApp. ¡Registra tu mascota gratis!" />
+  <meta property="og:image" content="https://mactos-pet-page.vercel.app/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://mactos-pet-page.vercel.app" />
+  <meta property="og:site_name" content="Mascotas App" />
+  <meta property="og:locale" content="es_ES" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mascotas App - Encuentra y Registra tu Mascota Perdida" />
+  <meta name="twitter:description"
+    content="Sistema QR inteligente para localizar mascotas perdidas. Conecta de forma directa con los dueños vía WhatsApp." />
+  <meta name="twitter:image" content="https://mactos-pet-page.vercel.app/og-image.png" />
+  <meta name="twitter:site" content="@MascotasApp" />
+  <meta name="twitter:creator" content="@MascotasApp" />
+
+  <!-- WhatsApp Meta Tags -->
+  <meta property="wa:title" content="Mascotas App - Encuentra tu Mascota" />
+  <meta property="wa:description" content="He encontrado una mascota. Usa Mascotas App para contactar al dueño." />
+  <meta property="wa:image" content="https://mactos-pet-page.vercel.app/whatsapp-image.png" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://mactos-pet-page.vercel.app" />
+
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://mascotas-backend.onrender.com">
+  <link rel="preconnect" href="https://res.cloudinary.com">
+
+  <!-- DNS Prefetch -->
+  <link rel="dns-prefetch" href="//wa.me">
+  <link rel="dns-prefetch" href="//api.whatsapp.com">
+  <link rel="dns-prefetch" href="//maps.google.com">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Mascotas App",
+      "description": "Sistema QR inteligente para localizar mascotas perdidas y conectar con sus dueños vía WhatsApp",
+      "url": "https://mactos-pet-page.vercel.app",
+      "applicationCategory": "Utility",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Mascotas App"
+      },
+      "featureList": [
+        "Registro de mascotas con código QR",
+        "Localización de mascotas perdidas",
+        "Comunicación directa vía WhatsApp",
+        "Sistema de notificaciones GPS",
+        "Base de datos segura de mascotas"
+      ]
+    }
+    </script>
+
+  <!-- Additional Performance Optimizations -->
+  <link rel="prefetch" href="/src/main.jsx">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+
+  <!-- Noscript fallback -->
+  <noscript>
+    <div
+      style="text-align: center; padding: 50px; font-family: Arial, sans-serif; background-color: #FAFAFA; color: #39434F;">
+      <h1>🐾 Mascotas App</h1>
+      <p>Para utilizar Mascotas App, necesitas activar JavaScript en tu navegador.</p>
+      <p>Esta aplicación te ayuda a encontrar mascotas perdidas mediante códigos QR.</p>
+    </div>
+  </noscript>
+</body>
+
 </html>
