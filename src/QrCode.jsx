@@ -416,20 +416,21 @@ const QrCode = () => {
 
   return (
     <div className="min-h-screen p-4" style={{ backgroundColor: "#FAFAFA" }}>
-      {/* Floating WhatsApp Button */}
+      {/* Large Send Location Button */}
       {owner?.phone && (
-        <button
-          onClick={() => setShowContactForm(true)}
-          className="fixed top-6 right-6 z-50 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 animate-pulse"
-          style={{ backgroundColor: "#3B9577" }}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#2d7a63")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#3B9577")}
-          title={`Contactar al dueño por WhatsApp`}
-        >
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
-          </svg>
-        </button>
+        <div className="fixed top-6 right-6 z-50">
+          <button
+            onClick={() => setShowContactForm(true)}
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 font-bold text-lg flex items-center gap-2"
+            title="Enviar ubicación al dueño"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Send Location?
+          </button>
+        </div>
       )}
 
       {/* Contact Form Modal */}
@@ -588,6 +589,28 @@ const QrCode = () => {
 
         {/* Pet Information Card */}
         <div className="space-y-6">
+          {/* Microchip Alert - Prominently displayed */}
+          {pet.pet_microchip_number && pet.pet_microchip_number !== "N/A" && (
+            <div
+              className="rounded-2xl shadow-xl p-6 border-2 border-red-500 bg-red-50 hover:shadow-2xl transition-all duration-300"
+            >
+              <div className="flex items-center justify-center mb-4">
+                <div className="bg-red-500 rounded-full p-3 mr-3">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-red-700 mb-1">MICROCHIP REGISTRADO</h3>
+                  <p className="text-3xl font-mono font-bold text-red-800">{pet.pet_microchip_number}</p>
+                </div>
+              </div>
+              <p className="text-center text-red-600 font-medium">
+                Esta mascota tiene microchip registrado. Contacta inmediatamente al dueño.
+              </p>
+            </div>
+          )}
+
           {/* Pet Image and Basic Info Card */}
           <div
             className="rounded-2xl shadow-xl p-6 md:p-8 border hover:shadow-2xl transition-all duration-300"
@@ -636,40 +659,165 @@ const QrCode = () => {
                     {pet.preferred_age || "Edad desconocida"} •{" "}
                     {pet.pet_size || "Tamaño desconocido"}
                   </p>
-                  <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                    <span
-                      className="px-3 py-1 rounded-full text-sm font-medium"
-                      style={{ backgroundColor: "#ECEFF2", color: "#3B9577" }}
-                    >
-                      {pet.isNeutered === "Yes"
-                        ? "Esterilizado"
-                        : "No esterilizado"}
-                    </span>
-                    <span
-                      className="px-3 py-1 rounded-full text-sm font-medium"
-                      style={{ backgroundColor: "#ECEFF2", color: "#3B9577" }}
-                    >
-                      {pet.pet_socialize === "Yes"
-                        ? "Socializado"
-                        : "No socializado"}
-                    </span>
-                    {pet.pet_microchip_number &&
-                      pet.pet_microchip_number !== "N/A" && (
-                        <span
-                          className="px-3 py-1 rounded-full text-sm font-medium"
-                          style={{
-                            backgroundColor: "#ECEFF2",
-                            color: "#3B9577",
-                          }}
-                        >
-                          Microchip: {pet.pet_microchip_number}
-                        </span>
-                      )}
+
+                  {/* Enhanced Pet Details Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-semibold text-gray-700 mb-2">Estado de Esterilización</h4>
+                      <p className="text-lg font-medium" style={{ color: pet.isNeutered === "Yes" ? "#3B9577" : "#d62d20" }}>
+                        {pet.isNeutered === "Yes" ? "✓ Esterilizado" : "✗ No esterilizado"}
+                      </p>
+                    </div>
+
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-semibold text-gray-700 mb-2">Socialización</h4>
+                      <p className="text-lg font-medium" style={{ color: pet.pet_socialize === "Yes" ? "#3B9577" : "#d62d20" }}>
+                        {pet.pet_socialize === "Yes" ? "✓ Socializado" : "✗ No socializado"}
+                      </p>
+                    </div>
+
+                    {pet.pet_race && (
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-gray-700 mb-2">Raza</h4>
+                        <p className="text-lg font-medium text-gray-800">{pet.pet_race}</p>
+                      </div>
+                    )}
+
+                    {pet.pet_weight && (
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-gray-700 mb-2">Peso</h4>
+                        <p className="text-lg font-medium text-gray-800">{pet.pet_weight}</p>
+                      </div>
+                    )}
+
+                    {pet.pet_gender && (
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-gray-700 mb-2">Género</h4>
+                        <p className="text-lg font-medium text-gray-800">{pet.pet_gender}</p>
+                      </div>
+                    )}
+
+                    {pet.pet_color && (
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-semibold text-gray-700 mb-2">Color</h4>
+                        <p className="text-lg font-medium text-gray-800">{pet.pet_color}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Temperament Section */}
+          {pet.temperament && pet.temperament.length > 0 && (
+            <div
+              className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+              style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+            >
+              <div className="flex items-center mb-4">
+                <div
+                  className="rounded-full p-3 mr-3"
+                  style={{ backgroundColor: "#ECEFF2" }}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    style={{ color: "#3B9577" }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold" style={{ color: "#39434F" }}>
+                  Temperamento
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {pet.temperament.map((trait, index) => (
+                  <span
+                    key={index}
+                    className="px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-200"
+                  >
+                    {trait}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Preferred Times Section */}
+          {pet.preferred_time && pet.preferred_time.length > 0 && (
+            <div
+              className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+              style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+            >
+              <div className="flex items-center mb-4">
+                <div
+                  className="rounded-full p-3 mr-3"
+                  style={{ backgroundColor: "#ECEFF2" }}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    style={{ color: "#FFC542" }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold" style={{ color: "#39434F" }}>
+                  Horarios Preferidos
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {pet.preferred_time.map((time, index) => (
+                  <span
+                    key={index}
+                    className="px-4 py-2 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 border border-yellow-200"
+                  >
+                    {time}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Pet Description/Medical Info */}
+          {pet.pet_description && (
+            <div
+              className="rounded-2xl shadow-lg p-6 border hover:shadow-xl transition-all duration-300"
+              style={{ backgroundColor: "#FFFFFF", borderColor: "#D9DFE6" }}
+            >
+              <div className="flex items-center mb-4">
+                <div
+                  className="rounded-full p-3 mr-3"
+                  style={{ backgroundColor: "#ECEFF2" }}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    style={{ color: "#d62d20" }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold" style={{ color: "#39434F" }}>
+                  Información Médica/Descripción
+                </h3>
+              </div>
+              <p
+                className="leading-relaxed text-lg bg-red-50 p-4 rounded-lg border border-red-200"
+                style={{ color: "#d62d20" }}
+              >
+                <strong>IMPORTANTE:</strong> {pet.pet_description}
+              </p>
+            </div>
+          )}
 
           {/* Owner Information */}
           <div
@@ -720,6 +868,16 @@ const QrCode = () => {
                   {owner.email || "No proporcionado"}
                 </span>
               </div>
+              {pet.preferred_location && pet.preferred_location !== "N/A" && (
+                <div className="flex justify-between items-center py-2 border-t" style={{ borderColor: "#D9DFE6" }}>
+                  <span className="font-medium" style={{ color: "#606873" }}>
+                    Ubicación Preferida:
+                  </span>
+                  <span className="font-medium" style={{ color: "#39434F" }}>
+                    {pet.preferred_location}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
