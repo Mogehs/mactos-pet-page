@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 const QrCode = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
+  const [medicalHistory, setMedicalHistory] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [finderPhone, setFinderPhone] = useState("");
@@ -22,7 +23,6 @@ const QrCode = () => {
           `https://mascotas-backend.onrender.com/api/qrcode/${id}`
         );
         setData(response.data);
-        console.log(response.data);
       } catch (err) {
         setError(err.message || "Failed to fetch QR code data");
         console.error("Error fetching QR code data:", err);
@@ -30,8 +30,31 @@ const QrCode = () => {
         setLoading(false);
       }
     };
+
     getQrCodeInfo();
   }, [id]);
+
+  useEffect(() => {
+    const getMedicalHistory = async () => {
+      if (data?.data?.pet?._id) {
+        try {
+          const response = await axios.post(
+            "https://mascotas-backend.onrender.com/api/medical",
+            {
+              id: data.data.pet._id,
+            }
+          );
+          console.log("Data fetched of medical history:", response.data);
+          if (response.data.success && response.data.data?.length > 0) {
+            setMedicalHistory(response.data.data[0]);
+          }
+        } catch (error) {
+          console.error("Error fetching medical history:", error);
+        }
+      }
+    };
+    getMedicalHistory();
+  }, [data]);
 
   // Function to get current location
   const getCurrentLocation = () => {
@@ -418,24 +441,39 @@ const QrCode = () => {
     <div className="min-h-screen p-4" style={{ backgroundColor: "#FAFAFA" }}>
       {/* Large Send Location Button */}
       {owner?.phone && (
-        <div className="fixed top-6 right-6 z-50">
+        <div className="fixed bottom-6 left-6 z-50">
           <button
             onClick={() => setShowContactForm(true)}
             className="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 font-bold text-lg flex items-center gap-2"
             title="Enviar ubicación al dueño"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
             </svg>
-            Send Location?
+            ¿Enviar ubicación?
           </button>
         </div>
       )}
 
       {/* Contact Form Modal */}
       {showContactForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-2xl bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div
             className="rounded-2xl shadow-2xl p-6 w-full max-w-md"
             style={{ backgroundColor: "#FFFFFF" }}
@@ -591,22 +629,35 @@ const QrCode = () => {
         <div className="space-y-6">
           {/* Microchip Alert - Prominently displayed */}
           {pet.pet_microchip_number && pet.pet_microchip_number !== "N/A" && (
-            <div
-              className="rounded-2xl shadow-xl p-6 border-2 border-red-500 bg-red-50 hover:shadow-2xl transition-all duration-300"
-            >
+            <div className="rounded-2xl shadow-xl p-6 border-2 border-red-500 bg-red-50 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center justify-center mb-4">
                 <div className="bg-red-500 rounded-full p-3 mr-3">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-red-700 mb-1">MICROCHIP REGISTRADO</h3>
-                  <p className="text-3xl font-mono font-bold text-red-800">{pet.pet_microchip_number}</p>
+                  <h3 className="text-2xl font-bold text-red-700 mb-1">
+                    MICROCHIP REGISTRADO
+                  </h3>
+                  <p className="text-3xl font-mono font-bold text-red-800">
+                    {pet.pet_microchip_number}
+                  </p>
                 </div>
               </div>
               <p className="text-center text-red-600 font-medium">
-                Esta mascota tiene microchip registrado. Contacta inmediatamente al dueño.
+                Esta mascota tiene microchip registrado. Contacta inmediatamente
+                al dueño.
               </p>
             </div>
           )}
@@ -663,44 +714,80 @@ const QrCode = () => {
                   {/* Enhanced Pet Details Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div className="bg-gray-50 p-4 rounded-lg">
-                      <h4 className="font-semibold text-gray-700 mb-2">Estado de Esterilización</h4>
-                      <p className="text-lg font-medium" style={{ color: pet.isNeutered === "Yes" ? "#3B9577" : "#d62d20" }}>
-                        {pet.isNeutered === "Yes" ? "✓ Esterilizado" : "✗ No esterilizado"}
+                      <h4 className="font-semibold text-gray-700 mb-2">
+                        Estado de Esterilización
+                      </h4>
+                      <p
+                        className="text-lg font-medium"
+                        style={{
+                          color:
+                            pet.isNeutered === "Yes" ? "#3B9577" : "#d62d20",
+                        }}
+                      >
+                        {pet.isNeutered === "Yes"
+                          ? "✓ Esterilizado"
+                          : "✗ No esterilizado"}
                       </p>
                     </div>
 
                     <div className="bg-gray-50 p-4 rounded-lg">
-                      <h4 className="font-semibold text-gray-700 mb-2">Socialización</h4>
-                      <p className="text-lg font-medium" style={{ color: pet.pet_socialize === "Yes" ? "#3B9577" : "#d62d20" }}>
-                        {pet.pet_socialize === "Yes" ? "✓ Socializado" : "✗ No socializado"}
+                      <h4 className="font-semibold text-gray-700 mb-2">
+                        Socialización
+                      </h4>
+                      <p
+                        className="text-lg font-medium"
+                        style={{
+                          color:
+                            pet.pet_socialize === "Yes" ? "#3B9577" : "#d62d20",
+                        }}
+                      >
+                        {pet.pet_socialize === "Yes"
+                          ? "✓ Socializado"
+                          : "✗ No socializado"}
                       </p>
                     </div>
 
                     {pet.pet_race && (
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-gray-700 mb-2">Raza</h4>
-                        <p className="text-lg font-medium text-gray-800">{pet.pet_race}</p>
+                        <h4 className="font-semibold text-gray-700 mb-2">
+                          Raza
+                        </h4>
+                        <p className="text-lg font-medium text-gray-800">
+                          {pet.pet_race}
+                        </p>
                       </div>
                     )}
 
                     {pet.pet_weight && (
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-gray-700 mb-2">Peso</h4>
-                        <p className="text-lg font-medium text-gray-800">{pet.pet_weight}</p>
+                        <h4 className="font-semibold text-gray-700 mb-2">
+                          Peso
+                        </h4>
+                        <p className="text-lg font-medium text-gray-800">
+                          {pet.pet_weight}
+                        </p>
                       </div>
                     )}
 
                     {pet.pet_gender && (
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-gray-700 mb-2">Género</h4>
-                        <p className="text-lg font-medium text-gray-800">{pet.pet_gender}</p>
+                        <h4 className="font-semibold text-gray-700 mb-2">
+                          Género
+                        </h4>
+                        <p className="text-lg font-medium text-gray-800">
+                          {pet.pet_gender}
+                        </p>
                       </div>
                     )}
 
                     {pet.pet_color && (
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <h4 className="font-semibold text-gray-700 mb-2">Color</h4>
-                        <p className="text-lg font-medium text-gray-800">{pet.pet_color}</p>
+                        <h4 className="font-semibold text-gray-700 mb-2">
+                          Color
+                        </h4>
+                        <p className="text-lg font-medium text-gray-800">
+                          {pet.pet_color}
+                        </p>
                       </div>
                     )}
                   </div>
@@ -727,7 +814,12 @@ const QrCode = () => {
                     viewBox="0 0 24 24"
                     style={{ color: "#3B9577" }}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold" style={{ color: "#39434F" }}>
@@ -765,7 +857,12 @@ const QrCode = () => {
                     viewBox="0 0 24 24"
                     style={{ color: "#FFC542" }}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold" style={{ color: "#39434F" }}>
@@ -803,7 +900,12 @@ const QrCode = () => {
                     viewBox="0 0 24 24"
                     style={{ color: "#d62d20" }}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                    />
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold" style={{ color: "#39434F" }}>
@@ -869,7 +971,10 @@ const QrCode = () => {
                 </span>
               </div>
               {pet.preferred_location && pet.preferred_location !== "N/A" && (
-                <div className="flex justify-between items-center py-2 border-t" style={{ borderColor: "#D9DFE6" }}>
+                <div
+                  className="flex justify-between items-center py-2 border-t"
+                  style={{ borderColor: "#D9DFE6" }}
+                >
                   <span className="font-medium" style={{ color: "#606873" }}>
                     Ubicación Preferida:
                   </span>
@@ -917,6 +1022,196 @@ const QrCode = () => {
               >
                 {pet.notes_other}
               </p>
+            </div>
+          )}
+
+          {/* Medical History Section */}
+          {medicalHistory && (
+            <div
+              className="rounded-2xl shadow-xl p-6 border-2 hover:shadow-2xl transition-all duration-300"
+              style={{ backgroundColor: "#FFFFFF", borderColor: "#3B9577" }}
+            >
+              <div className="flex items-center mb-6">
+                <div
+                  className="rounded-full p-3 mr-3"
+                  style={{ backgroundColor: "#3B9577" }}
+                >
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold" style={{ color: "#39434F" }}>
+                  Historial Médico
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Medications Section */}
+                {(medicalHistory.drug_name && medicalHistory.drug_name !== "N/A") && (
+                  <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                    <h4 className="font-bold text-red-700 mb-3 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                      </svg>
+                      💊 MEDICAMENTOS
+                    </h4>
+                    <div className="space-y-2">
+                      <p><strong>Medicamento:</strong> {medicalHistory.drug_name}</p>
+                      {medicalHistory.dosage && medicalHistory.dosage !== "N/A" && (
+                        <p><strong>Dosis:</strong> {medicalHistory.dosage}</p>
+                      )}
+                      {medicalHistory.frequency && medicalHistory.frequency !== "N/A" && (
+                        <p><strong>Frecuencia:</strong> {medicalHistory.frequency}</p>
+                      )}
+                      {medicalHistory.dose_start_date && medicalHistory.dose_start_date !== "N/A" && (
+                        <p><strong>Inicio:</strong> {medicalHistory.dose_start_date}</p>
+                      )}
+                      {medicalHistory.dose_end_date && medicalHistory.dose_end_date !== "N/A" && (
+                        <p><strong>Fin:</strong> {medicalHistory.dose_end_date}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Allergies Section */}
+                {(medicalHistory.allergy_title && medicalHistory.allergy_title !== "N/A") && (
+                  <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                    <h4 className="font-bold text-orange-700 mb-3 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                      </svg>
+                      ⚠️ ALERGIAS
+                    </h4>
+                    <div className="space-y-2">
+                      <p><strong>Alergia:</strong> {medicalHistory.allergy_title}</p>
+                      {medicalHistory.allergy_type && medicalHistory.allergy_type !== "N/A" && (
+                        <p><strong>Tipo:</strong> {medicalHistory.allergy_type}</p>
+                      )}
+                      {medicalHistory.allergy_symptoms && medicalHistory.allergy_symptoms !== "N/A" && (
+                        <p><strong>Síntomas:</strong> {medicalHistory.allergy_symptoms}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Deworming Section */}
+                {(medicalHistory.pet_deworming_date && medicalHistory.pet_deworming_date !== "N/A") && (
+                  <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <h4 className="font-bold text-green-700 mb-3 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      🛡️ DESPARASITACIÓN
+                    </h4>
+                    <div className="space-y-2">
+                      <p><strong>Fecha:</strong> {medicalHistory.pet_deworming_date}</p>
+                      {medicalHistory.pet_deworming_type && medicalHistory.pet_deworming_type !== "N/A" && (
+                        <p><strong>Tipo:</strong> {medicalHistory.pet_deworming_type}</p>
+                      )}
+                      {medicalHistory.pet_deworming_method && medicalHistory.pet_deworming_method !== "N/A" && (
+                        <p><strong>Método:</strong> {medicalHistory.pet_deworming_method}</p>
+                      )}
+                      {medicalHistory.used_product_in_deworming && medicalHistory.used_product_in_deworming !== "N/A" && (
+                        <p><strong>Producto:</strong> {medicalHistory.used_product_in_deworming}</p>
+                      )}
+                      {medicalHistory.pet_deworming_reminder_date && medicalHistory.pet_deworming_reminder_date !== "N/A" && (
+                        <p><strong>Próxima:</strong> {medicalHistory.pet_deworming_reminder_date}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Vaccinations Section */}
+                {(medicalHistory.pet_vaccine && medicalHistory.pet_vaccine !== "N/A") && (
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h4 className="font-bold text-blue-700 mb-3 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                      💉 VACUNAS
+                    </h4>
+                    <div className="space-y-2">
+                      <p><strong>Vacuna:</strong> {medicalHistory.pet_vaccine}</p>
+                      {medicalHistory.pet_vaccine_date && medicalHistory.pet_vaccine_date !== "N/A" && (
+                        <p><strong>Fecha:</strong> {medicalHistory.pet_vaccine_date}</p>
+                      )}
+                      {medicalHistory.pet_vaccine_reminder_date && medicalHistory.pet_vaccine_reminder_date !== "N/A" && (
+                        <p><strong>Próxima:</strong> {medicalHistory.pet_vaccine_reminder_date}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Emergency Contact Section */}
+                {(medicalHistory.emergency_veterinarian_name && medicalHistory.emergency_veterinarian_name !== "N/A") && (
+                  <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                    <h4 className="font-bold text-purple-700 mb-3 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                      🚨 CONTACTO DE EMERGENCIA
+                    </h4>
+                    <div className="space-y-2">
+                      <p><strong>Veterinario:</strong> {medicalHistory.emergency_veterinarian_name}</p>
+                      {medicalHistory.emergency_phone && medicalHistory.emergency_phone !== "N/A" && (
+                        <p><strong>Teléfono:</strong> {medicalHistory.emergency_phone}</p>
+                      )}
+                      {medicalHistory.emergency_email && medicalHistory.emergency_email !== "N/A" && (
+                        <p><strong>Email:</strong> {medicalHistory.emergency_email}</p>
+                      )}
+                      {medicalHistory.emergency_address && medicalHistory.emergency_address !== "N/A" && (
+                        <p><strong>Dirección:</strong> {medicalHistory.emergency_address}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Disease/Conditions Section */}
+                {(medicalHistory.pet_disease_name && medicalHistory.pet_disease_name !== "N/A") && (
+                  <div className="bg-red-100 p-4 rounded-lg border border-red-300">
+                    <h4 className="font-bold text-red-800 mb-3 flex items-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      🏥 CONDICIONES MÉDICAS
+                    </h4>
+                    <div className="space-y-2">
+                      <p><strong>Enfermedad:</strong> {medicalHistory.pet_disease_name}</p>
+                      {medicalHistory.pet_disease_description && medicalHistory.pet_disease_description !== "N/A" && (
+                        <p><strong>Descripción:</strong> {medicalHistory.pet_disease_description}</p>
+                      )}
+                      {medicalHistory.pet_date_diagnosis && medicalHistory.pet_date_diagnosis !== "N/A" && (
+                        <p><strong>Fecha de Diagnóstico:</strong> {medicalHistory.pet_date_diagnosis}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Medical Images */}
+              {medicalHistory.pet_deworming_image && medicalHistory.pet_deworming_image !== "N/A" && (
+                <div className="mt-6">
+                  <h4 className="font-bold text-gray-700 mb-3">📄 Documentos Médicos</h4>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="mb-2"><strong>Comprobante de Desparasitación:</strong></p>
+                    <img
+                      src={medicalHistory.pet_deworming_image}
+                      alt="Comprobante de desparasitación"
+                      className="max-w-full h-48 object-cover rounded-lg border"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
